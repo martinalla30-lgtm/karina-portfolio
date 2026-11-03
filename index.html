@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Karina</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0A0A'/%3E%3Cpath d='M11 7v18M22 7 11 17M15 13.5 23 25' fill='none' stroke='%23FAF9F6' stroke-width='3'/%3E%3C/svg%3E">
+  <meta name="description" content="Karina is a wedding photographer capturing love stories in honest, timeless black and white.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Pinyon+Script&family=Playfair+Display&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    :root {
+      --black: #0A0A0A;
+      --white: #FAF9F6;
+      --gold: #D4AF37;
+      --font-display: "Playfair Display", Georgia, serif;
+      --font-script: "Pinyon Script", "Snell Roundhand", Georgia, serif;
+      --font-body: "Lato", Arial, sans-serif;
+      --gutter: clamp(20px, 6vw, 96px);
+
+      /* Stock photo from Unsplash: replace with url("images/hero.jpg") */
+      --hero-image: url("https://images.unsplash.com/photo-1460978812857-470ed1c77af0?auto=format&fit=crop&w=2000&q=75");
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 1px solid var(--gold);
+      outline-offset: 4px;
+    }
+
+    /* Navigation */
+    .nav {
+      position: absolute;
+      inset: 0 0 auto 0;
+      z-index: 2;
+      padding: clamp(24px, 4vw, 48px) var(--gutter);
+    }
+
+    .nav ul {
+      display: flex;
+      justify-content: flex-end;
+      gap: clamp(20px, 4vw, 48px);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .nav a {
+      display: inline-block;
+      padding: 8px 0;
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-underline-offset: 6px;
+    }
+
+    .nav a:hover {
+      color: var(--gold);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+    }
+
+    /* Mobile menu */
+    .nav-toggle,
+    .nav-close {
+      display: none;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--white);
+      cursor: pointer;
+    }
+
+    @media (hover: hover) {
+      .nav-toggle:hover,
+      .nav-close:hover {
+        color: var(--gold);
+      }
+    }
+
+    .nav-toggle svg,
+    .nav-close svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+    }
+
+    .nav-menu {
+      display: block;
+      position: static;
+      width: auto;
+      max-width: none;
+      height: auto;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+    }
+
+    @media (max-width: 760px) {
+      body:has(.nav-menu[open]) {
+        overflow: hidden;
+      }
+
+      .nav-toggle,
+      .nav-close {
+        display: grid;
+      }
+
+      .nav-toggle {
+        margin-left: auto;
+      }
+
+      .nav-menu {
+        display: none;
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--black);
+        transform: translateX(100%);
+      }
+
+      .nav-menu[open] {
+        display: flex;
+      }
+
+      .nav-menu.is-visible {
+        transform: none;
+      }
+
+      .nav-menu::backdrop {
+        background: transparent;
+      }
+
+      .nav-close {
+        position: absolute;
+        top: clamp(24px, 4vw, 48px);
+        right: var(--gutter);
+      }
+
+      .nav-menu ul {
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(16px, 4vh, 32px);
+        margin: auto;
+      }
+
+      .nav-menu a {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        letter-spacing: 0;
+        line-height: 1.3;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .nav-menu {
+        transition: transform 0.45s ease-out;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 96px var(--gutter);
+      background: var(--black);
+      text-align: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      max-width: 100%;
+      background: var(--hero-image) center / cover no-repeat;
+      filter: grayscale(100%);
+    }
+
+    /* Upright phones get a portrait photo, so the couple isn't cropped away */
+    @media (max-width: 760px) and (orientation: portrait) {
+      :root {
+        /* Stock photo from Unsplash: replace with url("images/hero-phone.jpg") */
+        --hero-image: url("https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?auto=format&w=1200&q=75");
+      }
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.65);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      margin: 0;
+      color: var(--gold);
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 16vw, 11rem);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .hero p {
+      margin: 0.25em 0 0;
+      color: var(--gold);
+      font-family: var(--font-script);
+      font-size: clamp(2rem, 6vw, 3.75rem);
+      line-height: 1.2;
+    }
+
+    .hero-button {
+      display: inline-block;
+      margin-top: clamp(40px, 5vw, 64px);
+      padding: 16px 40px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .hero-button:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* Intro */
+    .intro {
+      max-width: 44rem;
+      margin: 0 auto;
+      padding: clamp(96px, 14vw, 192px) var(--gutter);
+      text-align: center;
+    }
+
+    .intro p {
+      margin: 0;
+    }
+
+    /* Gallery preview */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(8px, 2.5vw, 32px);
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      scroll-margin-top: clamp(16px, 4vw, 40px);
+    }
+
+    .gallery img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: grayscale(100%);
+    }
+
+    /* Contact */
+    .contact {
+      padding: clamp(96px, 14vw, 192px) var(--gutter);
+      text-align: center;
+    }
+
+    .contact h2 {
+      margin: 0 0 0.5em;
+      color: var(--gold);
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .contact a {
+      text-decoration-color: var(--gold);
+      text-underline-offset: 6px;
+      text-decoration-thickness: 1px;
+      overflow-wrap: anywhere;
+    }
+
+    /* Back to top */
+    .to-top {
+      position: fixed;
+      right: clamp(16px, 3vw, 32px);
+      bottom: clamp(16px, 3vw, 32px);
+      z-index: 10;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(10, 10, 10, 0.4);
+      color: var(--black);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .to-top.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .to-top svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+    }
+
+    @media (hover: hover) {
+      .to-top:hover {
+        background: var(--gold);
+        transform: translateY(-2px);
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .to-top {
+        transition: opacity 0.4s ease-out, visibility 0.4s, background-color 0.2s, transform 0.2s;
+      }
+    }
+
+    /* Entrance animations */
+    @keyframes fade-rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+    }
+
+    @media screen and (prefers-reduced-motion: no-preference) {
+      .hero-content > * {
+        animation: fade-rise 1.2s ease-out both;
+      }
+
+      .hero-content > :nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .hero-content > :nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      .js .reveal {
+        opacity: 0;
+        transition: opacity 1s ease-out;
+      }
+
+      .js .reveal.is-visible {
+        opacity: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="home" class="hero">
+    <nav class="nav" aria-label="Main">
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <dialog class="nav-menu" aria-label="Menu">
+        <button class="nav-close" type="button" aria-label="Close menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+        </button>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </dialog>
+    </nav>
+    <div class="hero-content">
+      <h1>Karina</h1>
+      <p>Capturing Love Stories</p>
+      <a class="hero-button" href="#gallery">View portfolio</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="intro">
+      <p>I'm Karina, a wedding photographer drawn to the quiet moments between the big ones: a nervous laugh, a held hand, a parent's tears. I work unobtrusively and in black and white, so that what you remember is how the day felt, not how it was staged.</p>
+    </section>
+
+    <!-- Stock photos from Unsplash: replace each src with a real photo. The grayscale filter applies automatically. -->
+    <section id="gallery" class="gallery" aria-label="Gallery preview">
+      <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&h=1000&q=75" width="800" height="1000" loading="lazy" alt="Newlyweds kissing as guests throw petals over them">
+      <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&h=1000&q=75" width="800" height="1000" loading="lazy" alt="Two wedding rings resting side by side">
+      <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=800&h=1000&q=75" width="800" height="1000" loading="lazy" alt="Bride and groom embracing on a beach, her long veil spread over the stones">
+    </section>
+  </main>
+
+  <footer id="contact" class="contact">
+    <h2 class="reveal">Contact</h2>
+    <a href="mailto:hello@example.com">hello@example.com</a>
+  </footer>
+
+  <button class="to-top" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <script>
+    // Fade headings in as they scroll into view
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+
+    document.querySelectorAll('.reveal').forEach((heading) => revealObserver.observe(heading));
+
+    // Mobile menu: slides in over the page
+    const navMenu = document.querySelector('.nav-menu');
+    const navSlideMs = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 450;
+
+    function closeNavMenu() {
+      navMenu.classList.remove('is-visible');
+      setTimeout(() => navMenu.close(), navSlideMs);
+    }
+
+    document.querySelector('.nav-toggle').addEventListener('click', () => {
+      navMenu.showModal();
+      void navMenu.offsetHeight; // Commit the off-screen state so the slide runs
+      navMenu.classList.add('is-visible');
+    });
+
+    navMenu.querySelector('.nav-close').addEventListener('click', closeNavMenu);
+    navMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeNavMenu));
+
+    // Esc: slide out first instead of closing instantly
+    navMenu.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeNavMenu();
+    });
+
+    navMenu.addEventListener('close', () => navMenu.classList.remove('is-visible'));
+
+    // Rotating or resizing past the breakpoint leaves no overlay behind
+    matchMedia('(max-width: 760px)').addEventListener('change', () => {
+      if (navMenu.open) navMenu.close();
+    });
+
+    // Show the back-to-top button after scrolling down 400px
+    const toTop = document.querySelector('.to-top');
+    const updateToTop = () => toTop.classList.toggle('is-visible', window.scrollY > 400);
+
+    window.addEventListener('scroll', updateToTop, { passive: true });
+    updateToTop();
+
+    toTop.addEventListener('click', () => {
+      const smooth = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+      window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+      document.querySelector('.nav a').focus({ preventScroll: true }); // The button is about to hide
+    });
+  </script>
+</body>
+</html>
