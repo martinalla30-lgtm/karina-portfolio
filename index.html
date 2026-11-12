@@ -20,8 +20,7 @@
       --font-body: "Lato", Arial, sans-serif;
       --gutter: clamp(20px, 6vw, 96px);
 
-      /* Stock photo from Unsplash: replace with url("images/hero.jpg") */
-      --hero-image: url("https://images.unsplash.com/photo-1460978812857-470ed1c77af0?auto=format&fit=crop&w=2000&q=75");
+      --hero-image: url("images/pulmad.avif");
     }
 
     *,
@@ -204,6 +203,7 @@
       padding: 96px var(--gutter);
       background: var(--black);
       text-align: center;
+      overflow: hidden;
     }
 
     .hero::before {
@@ -215,11 +215,24 @@
       filter: grayscale(100%);
     }
 
-    /* Upright phones get a portrait photo, so the couple isn't cropped away */
-    @media (max-width: 760px) and (orientation: portrait) {
-      :root {
-        /* Stock photo from Unsplash: replace with url("images/hero-phone.jpg") */
-        --hero-image: url("https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?auto=format&w=1200&q=75");
+    /* Narrow screens: keep both bride and groom in frame */
+    @media (max-width: 760px) {
+      .hero::before {
+        background-position: 72% center;
+      }
+    }
+
+    /* Wide screens: zoom the photo slightly and shift it right,
+       so the couple sits beside the title instead of under it */
+    @media (min-width: 761px) {
+      .hero::before {
+        transform: translateX(8%) scale(1.2);
+      }
+
+      /* Title block sits on the left so it doesn't cover the bride */
+      .hero {
+        justify-items: start;
+        text-align: left;
       }
     }
 
